@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+export const prerender = true;
+const products = await getCollection('products');
+const reviews = await getCollection('reviews');
+const news = await getCollection('news');
+const guides = await getCollection('guides');
+const comparisons = await getCollection('comparisons');
+
+const pages = ['/', '/products', '/reviews', '/comparisons', '/news', '/guides', '/about', '/contact'];
+const entries = [...products, ...reviews, ...news, ...guides, ...comparisons];
+const siteUrl = 'https://paperscreen.example';
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {pages.map((path) => (
+    <url>
+      <loc>{`${siteUrl}${path}`}</loc>
+      <changefreq>weekly</changefreq>
+      <priority>{path === '/' ? '1.0' : '0.7'}</priority>
+    </url>
+  ))}
+  {entries.map((entry) => (
+    <url>
+      <loc>{`${siteUrl}/${entry.collection}/${entry.slug}`}</loc>
+      <lastmod>{entry.data.pubDate.toISOString()}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+    </url>
+  ))}
+</urlset>

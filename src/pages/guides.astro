@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const guides = await getCollection('guides');
+const latestGuides = guides.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate));
+---
+<BaseLayout title="Guides" description="Buying guides for e-paper readers, reflective displays, and eye-friendly screens." canonical="https://paperscreen.example/guides">
+  <NavBar />
+  <main class="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Guides' }]} />
+    <div class="mt-10 space-y-6">
+      <div class="max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Guides</p>
+        <h1 class="mt-4 text-4xl font-semibold text-slate-950">Buying guides for modern display design.</h1>
+        <p class="mt-4 text-base leading-7 text-slate-600">Practical advice for choosing the right panel, reading device, or workflow upgrade.</p>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        {latestGuides.map((guide) => <ReviewCard review={{ ...guide.data, pubDate: guide.data.pubDate }} />)}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

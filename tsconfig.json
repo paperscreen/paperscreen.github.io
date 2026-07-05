@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "allowJs": false,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["astro/client"]
+  },
+  "include": ["src/**/*", "astro.config.mjs", "content/**/*"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

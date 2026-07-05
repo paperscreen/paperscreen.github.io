@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const products = await getCollection('products');
+const featuredProducts = products.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate)).slice(0, 6);
+---
+<BaseLayout title="Products" description="PaperScreen product catalog for e-paper, reflective LCD, and transflective devices." canonical="https://paperscreen.example/products">
+  <NavBar />
+  <main class="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
+    <div class="mt-10 space-y-6">
+      <div class="max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Product catalog</p>
+        <h1 class="mt-4 text-4xl font-semibold text-slate-950">Discover hardware, readers, and panel technology.</h1>
+        <p class="mt-4 text-base leading-7 text-slate-600">Curated product profiles with display category, battery guidance, and future-ready recommendations.</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {featuredProducts.map((product) => <ProductCard product={{ ...product.data, href: `/products/${product.slug}` }} />)}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title>PaperScreen</title>
+  <rect width="120" height="120" rx="28" fill="#f7f7f5" />
+  <path d="M32 28h56a4 4 0 014 4v56a4 4 0 01-4 4H32a4 4 0 01-4-4V32a4 4 0 014-4z" fill="#fff" stroke="#57a66b" stroke-width="6" />
+  <path d="M40 46h40M40 60h40M40 74h24" stroke="#57a66b" stroke-width="4" stroke-linecap="round" />
+</svg>

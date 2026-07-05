@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+import ComparisonCard from '../components/ComparisonCard.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+
+const products = await getCollection('products');
+const reviews = await getCollection('reviews');
+const news = await getCollection('news');
+const comparisons = await getCollection('comparisons');
+
+const featuredProducts = products.filter((item) => item.data.featured).slice(0, 4);
+const latestReviews = reviews.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate)).slice(0, 3);
+const latestNews = news.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate)).slice(0, 3);
+const popularComparisons = comparisons.filter((item) => item.data.featured).slice(0, 3);
+
+const categories = [
+  { tag: 'E-Ink', title: 'E-reader performance', description: 'Energy-efficient screens built for long reading sessions.', href: '/guides' },
+  { tag: 'Reflective LCD', title: 'Outdoor-ready displays', description: 'High-contrast panels that perform in sunlight.', href: '/comparisons' },
+  { tag: 'Color ePaper', title: 'Next-gen color paper screens', description: 'Vivid reflective color panels for creative workflows.', href: '/news' }
+];
+---
+<BaseLayout title="PaperScreen" description="PaperScreen covers premium eye-friendly display technology with product reviews, comparisons, and industry news." canonical="https://paperscreen.example/">
+  <NavBar />
+  <main class="space-y-16">
+    <Hero headline="PaperScreen" intro="Modern coverage of reflective and eye-friendly display technology." actions={[{ label: 'Browse latest reviews', href: '/reviews' }, { label: 'Explore comparisons', href: '/comparisons' }]} />
+
+    <section class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Featured categories</p>
+          <h2 class="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Browse trending display topics.</h2>
+        </div>
+        <a class="text-sm font-semibold text-slate-950 transition hover:text-accent" href="/guides">View all guides →</a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {categories.map((category) => <CategoryCard category={category} />)}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Featured products</p>
+          <h2 class="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Top display devices to watch.</h2>
+        </div>
+        <a class="text-sm font-semibold text-slate-950 transition hover:text-accent" href="/products">View all products →</a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {featuredProducts.map((product) => <ProductCard product={{ ...product.data, href: `/products/${product.slug}` }} />)}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Latest reviews</p>
+          <h2 class="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">In-depth product assessments.</h2>
+        </div>
+        <a class="text-sm font-semibold text-slate-950 transition hover:text-accent" href="/reviews">See all reviews →</a>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-3">
+        {latestReviews.map((review) => <ReviewCard review={{ ...review.data, pubDate: review.data.pubDate }} />)}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Latest news</p>
+          <h2 class="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">What’s moving the display industry.</h2>
+        </div>
+        <a class="text-sm font-semibold text-slate-950 transition hover:text-accent" href="/news">Read full newsfeed →</a>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-3">
+        {latestNews.map((item) => <NewsCard item={{ ...item.data, pubDate: item.data.pubDate }} />)}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Popular comparisons</p>
+          <h2 class="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Compare the latest screen technologies.</h2>
+        </div>
+        <a class="text-sm font-semibold text-slate-950 transition hover:text-accent" href="/comparisons">Explore comparisons →</a>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-3">
+        {popularComparisons.map((comparison) => <ComparisonCard comparison={{ ...comparison.data, pubDate: comparison.data.pubDate }} />)}
+      </div>
+    </section>
+
+    <NewsletterCTA headline="Subscribe for weekly briefings" description="Join the mailing list for crisp display news, reviews, and buying advice." actionLabel="Subscribe" actionHref="/contact" />
+  </main>
+  <Footer />
+</BaseLayout>

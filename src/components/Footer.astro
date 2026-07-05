@@ -1,0 +1,20 @@
+---
+const links = [
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'Contact', href: '/contact' }
+];
+---
+<footer class="border-t border-neutral-200 bg-neutral-50 text-neutral-700">
+  <div class="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="font-semibold text-slate-950">PaperScreen</p>
+      <p class="mt-2 max-w-md text-sm leading-6">Modern analysis and reviews for reflective displays, e-paper devices, and eye-friendly screens.</p>
+    </div>
+    <div class="flex flex-wrap gap-4 text-sm">
+      {links.map((item) => (
+        <a class="transition hover:text-slate-950" href={item.href}>{item.label}</a>
+      ))}
+    </div>
+  </div>
+</footer>

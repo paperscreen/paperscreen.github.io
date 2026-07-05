@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const reviews = await getCollection('reviews');
+const latestReviews = reviews.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate));
+---
+<BaseLayout title="Reviews" description="PaperScreen expert reviews for e-paper readers, reflective displays, and low-power devices." canonical="https://paperscreen.example/reviews">
+  <NavBar />
+  <main class="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Reviews' }]} />
+    <div class="mt-10 space-y-6">
+      <div class="max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Reviews</p>
+        <h1 class="mt-4 text-4xl font-semibold text-slate-950">In-depth reviews of modern paper-like screens.</h1>
+        <p class="mt-4 text-base leading-7 text-slate-600">Expert analysis of performance, contrast, battery life, and real-world experience.</p>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        {latestReviews.map((review) => <ReviewCard review={{ ...review.data, pubDate: review.data.pubDate }} />)}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

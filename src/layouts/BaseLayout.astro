@@ -1,0 +1,55 @@
+---
+import '../styles.css';
+const { title, description, canonical, image, url } = Astro.props;
+const siteTitle = 'PaperScreen';
+const siteDescription = 'A premium media publication for e-paper, RLCD, reflective LCD, and eye-friendly display technology.';
+const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+const pageDescription = description ?? siteDescription;
+const pageUrl = canonical ?? url ?? 'https://paperscreen.example';
+const pageImage = image ?? '/logo.svg';
+---
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={pageImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={pageImage} />
+    <meta name="theme-color" content="#ffffff" />
+    <script type="application/ld+json">{
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'WebSite',
+            'url': pageUrl,
+            'name': siteTitle,
+            'description': pageDescription
+          }
+        ]
+      })
+    }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root { color-scheme: light; }
+    </style>
+    <Astro.head />
+  </head>
+  <body class="bg-neutral-100 text-slate-900 antialiased">
+    <div class="min-h-screen bg-white">
+      <slot />
+    </div>
+  </body>
+</html>

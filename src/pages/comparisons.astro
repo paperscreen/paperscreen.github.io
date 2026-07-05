@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import ComparisonCard from '../components/ComparisonCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const comparisons = await getCollection('comparisons');
+const latestComparisons = comparisons.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate));
+---
+<BaseLayout title="Comparisons" description="Compare reflective display technologies, transflective panels, and e-paper alternatives." canonical="https://paperscreen.example/comparisons">
+  <NavBar />
+  <main class="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Comparisons' }]} />
+    <div class="mt-10 space-y-6">
+      <div class="max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.24em] text-accent">Comparisons</p>
+        <h1 class="mt-4 text-4xl font-semibold text-slate-950">Head-to-head technology breakdowns.</h1>
+        <p class="mt-4 text-base leading-7 text-slate-600">Clear comparisons that highlight power, readability, color, and use-case fit.</p>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        {latestComparisons.map((comparison) => <ComparisonCard comparison={{ ...comparison.data, pubDate: comparison.data.pubDate }} />)}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
