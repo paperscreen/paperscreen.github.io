@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://paperscreen.example',
+  site: 'https://paperscreen.github.io',
   output: 'static',
   markdown: {
     syntaxHighlight: 'shiki'
